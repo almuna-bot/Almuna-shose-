@@ -121,7 +121,10 @@ async def telegram_webhook(request: Request):
         "X-Telegram-Bot-Api-Secret-Token", ""
     )
 
-    if not secrets.compare_digest(supplied_secret, WEBHOOK_SECRET):
+@api.get("/")
+@api.head("/")
+async def home():
+    return {"status": "online", "bot": "Al Muna AI"}    if not secrets.compare_digest(supplied_secret, WEBHOOK_SECRET):
         raise HTTPException(status_code=403, detail="Forbidden")
 
     data = await request.json()
